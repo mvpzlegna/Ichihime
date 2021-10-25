@@ -1,0 +1,208 @@
+const moment = require('moment');
+const tz = require('moment-timezone');
+const chalk = require('chalk');
+process.on("unhandledRejection",(error,promise) => {
+  console.error(error)
+})
+const { timezone, format, updateinterval, bitrate, token, userLimit, guild_id, position } = require('./config.js');
+
+module.exports = (client) => {
+
+  client.once('ready',async () => {
+    //init time
+    const timeNow = moment().tz(timezone).format(format);
+    //No position, just in case the channel moved
+    let clockChannel = client.channels.cache.find(channel => channel.bitrate === bitrate && channel.userLimit === channel.userLimit)
+    || await client.guilds.cache.get(guild_id).channels.create(`🕒 ${timeNow}`,{
+      bitrate,userLimit,position,type:"voice"
+    }) 
+    clockChannel.clone({ bitrate,userLimit,position,type:"voice",name:`🕒 ${timeNow}` })
+    .then(async channel => {
+      if (clockChannel) await clockChannel.delete()
+      clockChannel =  channel
+    })
+    
+    //set the interval
+    setInterval(async () => {
+      const timeNowUpdate = moment().tz(timezone).format(format);
+      clockChannel.clone({ bitrate,userLimit,position,type:"voice",name:`🕒 ${timeNowUpdate}` })
+      .then(async channel => {
+        await clockChannel.delete()
+        clockChannel =  channel
+      })
+    }, updateinterval);
+    //tells if it is ready
+    console.log(chalk.greenBright("[READY]"), `Logged in as ${client.user.tag} (${client.user.id}) at ${moment().format("DD MMMM YYYY, HH:mm:ss")}`);
+  });
+
+//log in
+client.login(token);
+}
+
+
+
+
+
+
+
+
+
+
+
+require('dotenv').config(); 
+
+bot.on('ready', async () => {
+	console.log('Oh, look at the time!')
+
+	var now = moment().utcOffset(+7).format("HH:mm");
+	var gmt = moment().utcOffset(+9).format("HH:mm z");
+	var clocktime = '';
+
+	function timeClock(now) 
+		{
+		console.log(`Calling timeClock`);
+		if (now.includes('00:') || now.includes('12:')) 
+			{
+			clocktime = '🕛';
+			return clocktime;
+			}
+		else if (now.includes('01:') || now.includes('13:')) 
+			{
+			clocktime = '🕐';
+			return clocktime;
+			}
+		else if (now.includes('02:') || now.includes('14:')) 
+			{
+			clocktime = '🕑';
+			return clocktime;
+			}
+		else if (now.includes('03:') || now.includes('15:')) 
+			{
+			clocktime = '🕒';
+			return clocktime;
+			}
+		else if (now.includes('04:') || now.includes('16:')) 
+			{
+			clocktime = '🕓';
+			return clocktime;
+			}
+		else if (now.includes('05:') || now.includes('17:')) 
+			{
+			clocktime = '🕔';
+			return clocktime;
+			}
+		else if (now.includes('06:') || now.includes('18:')) 
+			{
+			clocktime = '🕕';
+			return clocktime;
+			}
+		else if (now.includes('07:') || now.includes('19:')) 
+			{
+			clocktime = '🕖';
+			return clocktime;
+			}
+		else if (now.includes('08:') || now.includes('20:')) 
+			{
+			clocktime = '🕗';
+			return clocktime;
+			}
+		else if (now.includes('09:')) 
+			{
+			clocktime = '🎉';
+			return clocktime;
+			}
+		else if (now.includes('21:')) 
+			{
+			clocktime = '🕘';
+			return clocktime;
+			}
+		else if (now.includes('10:') || now.includes('22:')) 
+			{
+			clocktime = '🕙';
+			return clocktime;
+			}
+		else if (now.includes('11:') || now.includes('23:')) 
+			{
+			clocktime = '🕚';
+			return clocktime;
+			}
+		else
+			{
+			clocktime = '🕛';
+			return clocktime;
+			}
+		}
+
+	async function timeout() 
+		{
+		console.log(`Calling timeout`);
+		var current = new Date();
+		var timeToNextTick = (60 - current.getSeconds()) * 1000 - current.getMilliseconds();
+		console.log(`Timeout Engaged For ${timeToNextTick}`);
+		return await new Promise(resolve => setTimeout(resolve,timeToNextTick));
+		}
+
+	async function asyncGenerator() 
+		{
+		console.log(`Calling asyncGenerator`);
+		try
+			{
+			var now = new Date();
+			var minutes = now.getMinutes();
+			var seconds = now.getSeconds();
+			if( minutes != '10' && seconds == '00' )
+				{
+				now = moment().utcOffset(+7).format("HH:mm");
+				gmt = moment().utcOffset(+9).format("HH:mm z");
+				console.log(`Here's The New Time: ${clocktime}${now} KST•${gmt}`);
+				await guild.channels.cache.get('836843653866586112')
+        channel.setName(clocktime+now+' KST'+'•'+gmt);
+				console.log(`Loop Completed!`);
+				await timeout();
+				return asyncGenerator();
+				}
+			else if( minutes == '10' && seconds == '00' )
+				{
+				console.log(`New Hour!`);
+				now = moment().utcOffset(+7).format("HH:mm");
+				gmt = moment().utcOffset(+9).format("HH:mm z");
+				clocktime = timeClock(now);
+				console.log(`Here's The New Time: ${clocktime}${now} KST•${gmt}`);
+				await guild.channels.cache.get('836843653866586112')
+        channel.setName(clocktime+now+' KST'+'•'+gmt);
+				console.log(`Loop Completed!`);
+				await timeout();
+				return asyncGenerator();
+				}
+			else{
+				await timeout();
+				return asyncGenerator();
+				}
+			}
+			catch (error) {
+				console.log(`Error In asyncGenerator Loop!`)
+				await timeout();
+				return asyncGenerator();
+				}
+		}
+
+	while (true) 
+		{
+		console.log(`Starting The Clock!`);
+		now = moment().utcOffset(+7).format("HH:mm");
+		clocktime = timeClock(now);
+		console.log(`Here's The Current Time: ${clocktime}${now} KST•${gmt}`);
+		try {
+			console.log(`Calling timeout start`);
+			await timeout();
+			console.log(`Calling asyncGenerator start`);
+			return asyncGenerator();
+			} 
+		catch (error) {console.log('Error In Main While Loop!')}
+		console.log('Main Loop Completed!');
+		console.log(`Calling timeout start`);
+		await timeout();
+		console.log(`Calling asyncGenerator start`);
+		return asyncGenerator();
+		}
+});
