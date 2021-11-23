@@ -26,7 +26,7 @@ bot.on('guildMemberAdd', async member => {
             .setDescription(`${member.user.tag} is the ${member.guild.memberCount} to join.\nJoined using ${usedInvite.inviter.tag}\nNumber of uses: ${usedInvite.uses}`)
             .setTimestamp()
             .setTitle(`${usedInvite.url}`);
-        const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '738002259794722821');
+        const welcomeChannel = member.guild.channels.cache.find(channel => channel.id === '902460865217982516');
         if(welcomeChannel) {
             welcomeChannel.send(embed).catch(err => console.log(err));
         }

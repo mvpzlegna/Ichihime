@@ -6,7 +6,7 @@ module.exports = {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('You do not have permissions to use this command')
         if(!args[0]) return message.channel.send('Please specify a message id')
 
-        const giveaway = client.giveaways.giveaways.find((g) => g.messageID === args.join(" "))
+        const giveaway = client.giveaways.find((g) => g.messageID === args.join(" "))
         if(!giveaway) return message.channel.send('Giveaway not found')
 
         client.giveaways.edit(giveaway.messageID, {

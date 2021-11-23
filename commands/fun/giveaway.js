@@ -30,8 +30,8 @@ module.exports = {
             hostedBy: bot.config.hostedBy ? message.author : null,
 
             messages: {
-                giveaway: (bot.config.everyoneMention ? "@everyone\n\n" : "") + "NEW GIVEAWAY APPEARS",
-                giveawayEned: (bot.config.everyoneMention ? "@everyone\n\n" : "") + "GIVEAWAY ENDED",
+                giveaway: (bot.config.everyoneMention ? "@everyone\n\n" : "") + "<@&817216242191433738> NEW GIVEAWAY APPEARS",
+                giveawayEned: (bot.config.everyoneMention ? "@everyone <@&817216242191433738>\n\n" : "") + "<@&817216242191433738> GIVEAWAY ENDED",
                 timeRemaining: "Time remaining: **{duration}**",
                 inviteToParticipate: "React with 🎉 to participate giveaway",
                 winMessage: "🎊 Congratulations {winners}, you won the **{prize}**",
