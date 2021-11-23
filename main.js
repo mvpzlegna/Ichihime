@@ -16,11 +16,9 @@ setInterval(() => {
 
 
 const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');
 const bot = new Discord.Client({
   disableMentions: "everyone",
   partials: ["REACTION"],
-  intents: [Intents.FLAGS.GUILDS] 
 });
 
 
