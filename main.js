@@ -1,3 +1,17 @@
+const http = require('http');
+const express = require('express');
+const app = express();
+var server = require('http').createServer(app);
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+const listener = server.listen(process.env.PORT || 8000, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
 
 
 
@@ -6,6 +20,7 @@ const bot = new Discord.Client({
   disableMentions: "everyone",
   partials: ["REACTION"],
 });
+
 
 
 const db = require('quick.db');
@@ -52,11 +67,6 @@ const ytdlOptions = {
   quality: 'highestaudio',
   format: 'mp3'
 };
-
-
-
-
-
 
 
 bot.on("ready", async () => {
